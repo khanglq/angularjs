@@ -1,3 +1,5 @@
+
+-- db structure
 CREATE TABLE "Fact_Transaction" (
   "PK_ID" numeric PRIMARY KEY,
   "FK_Contract_ID" numeric NOT NULL,
@@ -134,6 +136,7 @@ CREATE TABLE "Fact_Product_Revenue" (
   "PK_ID" numeric PRIMARY KEY,
   "Product_Code" varchar(60) NOT NULL,
   "FK_Sale_ID" numeric NOT NULL,
+  "FK_Contract_ID" numeric NOT NULL,
   "Process_Date" date,
   "Amount" numeric(20,4),
   "Month" int,
@@ -218,3 +221,23 @@ CREATE TABLE "Fact_KPI_Result" (
   "Note" varchar(4000),
   "Attachment" varchar(300)
 );
+
+-- table relations
+ALTER TABLE "Fact_Transaction" ADD FOREIGN KEY ("FK_Cust_ID") REFERENCES "Dim_Cust_ID" ("PK_ID");
+ALTER TABLE "Dim_Product_Code" ADD FOREIGN KEY ("FK_Product_Cat") REFERENCES "Dim_Product_Category" ("PK_ID");
+ALTER TABLE "Dim_Day_Convention" ADD FOREIGN KEY ("Product_Code") REFERENCES "Dim_Product_Code" ("Product_Code");
+ALTER TABLE "Fact_Transaction" ADD FOREIGN KEY ("Product_Code") REFERENCES "Dim_Product_Code" ("Product_Code");
+ALTER TABLE "Dim_Sale_Person_Customer" ADD FOREIGN KEY ("FK_Sale_ID") REFERENCES "Dim_Sale_Person" ("PK_ID");
+ALTER TABLE "Dim_Sale_Person_Customer" ADD FOREIGN KEY ("Product_Code") REFERENCES "Dim_Product_Code" ("Product_Code");
+ALTER TABLE "Fact_Product_Revenue" ADD FOREIGN KEY ("FK_Contract_ID") REFERENCES "Dim_Contract_ID" ("PK_ID");
+ALTER TABLE "Fact_Product_Revenue" ADD FOREIGN KEY ("Product_Code") REFERENCES "Dim_Product_Code" ("Product_Code");
+ALTER TABLE "Fact_Product_Revenue" ADD FOREIGN KEY ("FK_Sale_ID") REFERENCES "Dim_Sale_Person" ("PK_ID");
+ALTER TABLE "Fact_Transaction" ADD FOREIGN KEY ("FK_Contract_ID") REFERENCES "Dim_Contract_ID" ("PK_ID");
+ALTER TABLE "Provision_Product_Revenue_NET" ADD FOREIGN KEY ("FK_Sale_ID") REFERENCES "Dim_Sale_Person" ("PK_ID");
+ALTER TABLE "Provision_Product_Revenue_NET" ADD FOREIGN KEY ("Product_Code") REFERENCES "Dim_Product_Code" ("Product_Code");
+ALTER TABLE "Fact_KPI_Reconcile_Result" ADD FOREIGN KEY ("PK_ID") REFERENCES "Fact_KPI_Product_Result" ("PK_ID");
+ALTER TABLE "Fact_KPI_Product_Result" ADD FOREIGN KEY ("FK_Sale_ID") REFERENCES "Fact_KPI_Result" ("FK_Sale_ID");
+ALTER TABLE "Dim_Sale_Person" ADD FOREIGN KEY ("FK_Employee_ID") REFERENCES "Dim_Employee" ("PK_ID");
+ALTER TABLE "Dim_Employee_Leave" ADD FOREIGN KEY ("FK_Employee_ID") REFERENCES "Dim_Employee" ("PK_ID");
+ALTER TABLE "Dim_Employee" ADD FOREIGN KEY ("FK_Branch_ID") REFERENCES "Dim_Branch" ("PK_ID");
+ALTER TABLE "Dim_Employee" ADD FOREIGN KEY ("FK_Department_ID") REFERENCES "Dim_Department" ("PK_ID");
