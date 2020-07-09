@@ -27,15 +27,11 @@ Table Dim_Cust_ID {
   System_Code varchar(100) [not null]
 }
 
-Ref: "Dim_Cust_ID"."PK_ID" < "Fact_Transaction"."FK_Cust_ID"
-
 Table Dim_Contract_ID {
   PK_ID numeric [pk]
   Contract_No varchar(100) [not null]
   System_Code varchar(100) [not null]
 }
-
-Ref: "Dim_Contract_ID"."PK_ID" < "Fact_Transaction"."FK_Contract_ID"
 
 Table Dim_Branch {
   PK_ID numeric [pk]
@@ -140,6 +136,7 @@ Table Fact_Product_Revenue {
   PK_ID numeric [pk]
   Product_Code varchar(60) [not null]
   FK_Sale_ID numeric [not null]
+  FK_Contract_ID numeric [not null]
   Process_Date date  
   Amount numeric(20,4)   
   Month int  
@@ -224,3 +221,24 @@ Table Fact_KPI_Result {
   Note varchar(4000)  
   Attachment varchar(300)  
 }
+
+//Relation script
+
+Ref: "Dim_Cust_ID"."PK_ID" < "Fact_Transaction"."FK_Cust_ID"
+Ref: "Dim_Product_Category"."PK_ID" < "Dim_Product_Code"."FK_Product_Cat"
+Ref: "Dim_Product_Code"."Product_Code" - "Dim_Day_Convention"."Product_Code"
+Ref: "Dim_Product_Code"."Product_Code" < "Fact_Transaction"."Product_Code"
+Ref: "Dim_Sale_Person"."PK_ID" < "Dim_Sale_Person_Customer"."FK_Sale_ID"
+Ref: "Dim_Product_Code"."Product_Code" < "Dim_Sale_Person_Customer"."Product_Code"
+Ref: "Dim_Contract_ID"."PK_ID" < "Fact_Product_Revenue"."FK_Contract_ID"
+Ref: "Dim_Product_Code"."Product_Code" < "Fact_Product_Revenue"."Product_Code"
+Ref: "Dim_Sale_Person"."PK_ID" < "Fact_Product_Revenue"."FK_Sale_ID"
+Ref: "Dim_Contract_ID"."PK_ID" < "Fact_Transaction"."FK_Contract_ID"
+Ref: "Dim_Sale_Person"."PK_ID" < "Provision_Product_Revenue_NET"."FK_Sale_ID"
+Ref: "Dim_Product_Code"."Product_Code" < "Provision_Product_Revenue_NET"."Product_Code"
+Ref: "Fact_KPI_Product_Result"."PK_ID" - "Fact_KPI_Reconcile_Result"."PK_ID"
+Ref: "Fact_KPI_Result"."FK_Sale_ID" < "Fact_KPI_Product_Result"."FK_Sale_ID"
+Ref: "Dim_Employee"."PK_ID" < "Dim_Sale_Person"."FK_Employee_ID"
+Ref: "Dim_Employee"."PK_ID" < "Dim_Employee_Leave"."FK_Employee_ID"
+Ref: "Dim_Branch"."PK_ID" < "Dim_Employee"."FK_Branch_ID"
+Ref: "Dim_Department"."PK_ID" < "Dim_Employee"."FK_Department_ID"
