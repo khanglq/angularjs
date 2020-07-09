@@ -13,12 +13,12 @@ Table Fact_Transaction {
   Value_Date date
   Expire_Date date
   Maturity_Date date
-  Payment_Date varchar2(25) 
+  Payment_Date varchar(25) 
   Amount numeric(20,4)
   Quantity int 
-  Indiv_Org_Flag number [not null]
-  Day_Count_Convention varchar2(500) 
-  Contract_ID_Ref number
+  Indiv_Org_Flag numeric [not null]
+  Day_Count_Convention varchar(500) 
+  Contract_ID_Ref numeric
 }
 
 Table Dim_Cust_ID {
@@ -41,7 +41,7 @@ Table Dim_Branch {
   PK_ID numeric [pk]
   Name varchar(200) [not null]
   Desc varchar(4000) [not null]
-  Start_Date date
+  Start_Date date.
   End_Date date
 }
 
@@ -114,4 +114,113 @@ Table Dim_Day_Convention {
   Desc varchar(4000)  
   Start_Date date  
   End_Date date  
+}
+
+Table Dim_Sale_Person {
+  PK_ID numeric [pk]
+  Sale_ID varchar(60) [not null]
+  FK_Employee_ID numeric [not null]
+  System_Code varchar(25)  
+}
+
+Table Dim_Sale_Person_Customer {
+  PK_ID numeric [pk]
+  FK_Sale_ID numeric [not null]
+  Product_Code varchar(60) [not null]
+  FK_Cust_ID numeric [not null]
+  Start_Date date  
+  End_Date date  
+  Created_Date date  
+  Updated_Date date  
+  Created_By varchar(25) 
+  Updated_By varchar(25) 
+}
+
+Table Fact_Product_Revenue {
+  PK_ID numeric [pk]
+  Product_Code varchar(60) [not null]
+  FK_Sale_ID numeric [not null]
+  Process_Date date  
+  Amount numeric(20,4)   
+  Month int  
+  Quarter int  
+  Year int  
+}
+
+Table Provision_Product_Revenue_NET {
+  PK_ID numeric [pk]
+  Product_Code varchar(60) [not null]
+  FK_Sale_ID numeric [not null]
+  Process_Date date  
+  Amount numeric(20,4)   
+  Total_Balance numeric(20,4)   
+  Target_Current_Period numeric(20,4)   
+  Target_Prev_Period numeric(20,4)   
+  Amount_Prev_Period numeric(20,4)   
+  Accumulative_Target_Achieved_Pct numeric(20,4)   
+  Month int  
+  Quarter int  
+  Year int  
+}
+
+Table Fact_KPI_Product_Result {
+  PK_ID numeric [pk]
+  Session_ID numeric
+  Product_Code varchar(60) [not null]
+  FK_Sale_ID numeric [not null]
+  Process_Date date  
+  Amount numeric(20,4)   
+  Total_Balance numeric(20,4)   
+  Target_Current_Period numeric(20,4)   
+  Target_Prev_Period numeric(20,4)   
+  Amount_Prev_Period numeric(20,4)   
+  Accumulative_Target_Achieved_Pct numeric(20,4)   
+  Month int  
+  Quarter int  
+  Year int  
+  KPI_PCT numeric
+  KPI_Result varchar(30) 
+  No_Of_Run int  
+}
+
+Table Fact_KPI_Reconcile_Result {
+  PK_ID numeric [pk]
+  Session_ID numeric
+  FK_Sale_ID numeric [not null]
+  Process_Date date  
+  Amount numeric(20,4)   
+  Total_Balance numeric(20,4)   
+  Target_Current_Period numeric(20,4)   
+  Target_Prev_Period numeric(20,4)   
+  Amount_Prev_Period numeric(20,4)   
+  Accumulative_Target_Achieved_Pct numeric(20,4)   
+  Month int  
+  Quarter int  
+  Year int  
+  KPI_PCT numeric
+  KPI_Result varchar(30) 
+  No_Of_Run int  
+  Note varchar(4000)  
+  Attachment varchar(300)  
+}
+
+Table Fact_KPI_Result {
+  PK_ID numeric [pk]
+  Session_ID numeric
+  FK_Sale_ID numeric [not null]
+  Process_Date date  
+  Amount numeric(20,4)   
+  Total_Balance numeric(20,4)   
+  Target_Current_Period numeric(20,4)   
+  Target_Prev_Period numeric(20,4)   
+  Amount_Prev_Period numeric(20,4)   
+  Accumulative_Target_Achieved_Pct numeric(20,4)   
+  Month int  
+  Quarter int  
+  Year int  
+  KPI_PCT numeric
+  KPI_Result varchar(30) 
+  No_Of_Run int  
+  Note varchar(4000)  
+  Attachment varchar(300)  
 }
