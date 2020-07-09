@@ -41,7 +41,7 @@ Table Dim_Branch {
   PK_ID numeric [pk]
   Name varchar(200) [not null]
   Desc varchar(4000) [not null]
-  Start_Date date.
+  Start_Date date
   End_Date date
 }
 
