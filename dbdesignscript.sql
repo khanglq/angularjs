@@ -1,11 +1,11 @@
-// SaleStructure DB script
+-- SaleStructure DB script
 
 Table Fact_Transaction {
-  PK_ID numeric [pk]
-  FK_Contract_ID numeric [not null]
+  PK_ID bigint [pk]
+  FK_Contract_ID bigint [not null]
   Product_Code varchar(60) [not null]
-  FK_Sale_ID numeric [not null]
-  FK_Cust_ID numeric [not null]
+  FK_Sale_ID bigint [not null]
+  FK_Cust_ID bigint [not null]
   Product_Type varchar(50) 
   Product_Sub_Type varchar(50) 
   Transaction_Type varchar(50) 
@@ -14,27 +14,27 @@ Table Fact_Transaction {
   Expire_Date date
   Maturity_Date date
   Payment_Date varchar(25) 
-  Amount numeric(20,4)
+  Amount bigint(20,4)
   Quantity int 
-  Indiv_Org_Flag numeric [not null]
+  Indiv_Org_Flag bigint [not null]
   Day_Count_Convention varchar(500) 
-  Contract_ID_Ref numeric
+  Contract_ID_Ref bigint
 }
 
 Table Dim_Cust_ID {
-  PK_ID numeric [pk]
+  PK_ID bigint [pk]
   Cust_No varchar(100) [not null]
   System_Code varchar(100) [not null]
 }
 
 Table Dim_Contract_ID {
-  PK_ID numeric [pk]
+  PK_ID bigint [pk]
   Contract_No varchar(100) [not null]
   System_Code varchar(100) [not null]
 }
 
 Table Dim_Branch {
-  PK_ID numeric [pk]
+  PK_ID bigint [pk]
   Name varchar(200) [not null]
   Desc varchar(4000) [not null]
   Start_Date date
@@ -42,7 +42,7 @@ Table Dim_Branch {
 }
 
 Table Dim_Department {
-  PK_ID numeric [pk]
+  PK_ID bigint [pk]
   Name varchar(200) [not null]
   Desc varchar(4000) [not null]
   Start_Date date
@@ -50,7 +50,7 @@ Table Dim_Department {
 }
 
 Table Dim_Sale_Channel {
-  PK_ID numeric [pk]
+  PK_ID bigint [pk]
   Name varchar(200) [not null]
   Desc varchar(4000) [not null]
   Start_Date date
@@ -58,15 +58,15 @@ Table Dim_Sale_Channel {
 }
 
 Table Dim_Employee {
-  PK_ID numeric [pk]
-  Name numeric [not null]
+  PK_ID bigint [pk]
+  Name bigint [not null]
   Address varchar(400) [not null]
   Phone_No varchar(50) [not null]
   Probation_Date date [not null]
   Sign_Contract_Date date  
   Exit_Date date  
-  FK_Branch_ID numeric 
-  FK_Department_ID numeric 
+  FK_Branch_ID bigint 
+  FK_Department_ID bigint 
   Created_Date date  
   Updated_Date date  
   Created_By varchar(25) 
@@ -74,8 +74,8 @@ Table Dim_Employee {
 }
 
 Table Dim_Employee_Leave {
-  PK_ID numeric [pk]
-  FK_Employee_ID numeric [not null]
+  PK_ID bigint [pk]
+  FK_Employee_ID bigint [not null]
   Leave_Type varchar(50) 
   Note varchar(4000) 
   From_Date date  
@@ -87,7 +87,7 @@ Table Dim_Employee_Leave {
 }
 
 Table Dim_Product_Category {
-  PK_ID numeric [pk]
+  PK_ID bigint [pk]
   Name varchar(200) [not null]
   Desc varchar(4000)  
   Start_Date date  
@@ -95,8 +95,8 @@ Table Dim_Product_Category {
 }
 
 Table Dim_Product_Code {
-  PK_ID numeric [pk]
-  FK_Product_Cat numeric [not null]
+  PK_ID bigint [pk]
+  FK_Product_Cat bigint [not null]
   Product_Code varchar(60) [unique, not null]
   Desc varchar(4000)  
   Start_Date date  
@@ -104,7 +104,7 @@ Table Dim_Product_Code {
 }
 
 Table Dim_Day_Convention {
-  PK_ID numeric [pk]
+  PK_ID bigint [pk]
   Product_Code varchar(60) [unique, not null]
   Code varchar(60) 
   Desc varchar(4000)  
@@ -113,17 +113,17 @@ Table Dim_Day_Convention {
 }
 
 Table Dim_Sale_Person {
-  PK_ID numeric [pk]
+  PK_ID bigint [pk]
   Sale_ID varchar(60) [not null]
-  FK_Employee_ID numeric [not null]
+  FK_Employee_ID bigint [not null]
   System_Code varchar(25)  
 }
 
 Table Dim_Sale_Person_Customer {
-  PK_ID numeric [pk]
-  FK_Sale_ID numeric [not null]
+  PK_ID bigint [pk]
+  FK_Sale_ID bigint [not null]
   Product_Code varchar(60) [not null]
-  FK_Cust_ID numeric [not null]
+  FK_Cust_ID bigint [not null]
   Start_Date date  
   End_Date date  
   Created_Date date  
@@ -133,68 +133,68 @@ Table Dim_Sale_Person_Customer {
 }
 
 Table Fact_Product_Revenue {
-  PK_ID numeric [pk]
+  PK_ID bigint [pk]
   Product_Code varchar(60) [not null]
-  FK_Sale_ID numeric [not null]
-  FK_Contract_ID numeric [not null]
+  FK_Sale_ID bigint [not null]
+  FK_Contract_ID bigint [not null]
   Process_Date date  
-  Amount numeric(20,4)   
+  Amount bigint(20,4)   
   Month int  
   Quarter int  
   Year int  
 }
 
 Table Provision_Product_Revenue_NET {
-  PK_ID numeric [pk]
+  PK_ID bigint [pk]
   Product_Code varchar(60) [not null]
-  FK_Sale_ID numeric [not null]
+  FK_Sale_ID bigint [not null]
   Process_Date date  
-  Amount numeric(20,4)   
-  Total_Balance numeric(20,4)   
-  Target_Current_Period numeric(20,4)   
-  Target_Prev_Period numeric(20,4)   
-  Amount_Prev_Period numeric(20,4)   
-  Accumulative_Target_Achieved_Pct numeric(20,4)   
+  Amount bigint(20,4)   
+  Total_Balance bigint(20,4)   
+  Target_Current_Period bigint(20,4)   
+  Target_Prev_Period bigint(20,4)   
+  Amount_Prev_Period bigint(20,4)   
+  Accumulative_Target_Achieved_Pct bigint(20,4)   
   Month int  
   Quarter int  
   Year int  
 }
 
 Table Fact_KPI_Product_Result {
-  PK_ID numeric [pk]
-  Session_ID numeric
+  PK_ID bigint [pk]
+  Session_ID bigint
   Product_Code varchar(60) [not null]
-  FK_Sale_ID numeric [not null]
+  FK_Sale_ID bigint [not null]
   Process_Date date  
-  Amount numeric(20,4)   
-  Total_Balance numeric(20,4)   
-  Target_Current_Period numeric(20,4)   
-  Target_Prev_Period numeric(20,4)   
-  Amount_Prev_Period numeric(20,4)   
-  Accumulative_Target_Achieved_Pct numeric(20,4)   
+  Amount bigint(20,4)   
+  Total_Balance bigint(20,4)   
+  Target_Current_Period bigint(20,4)   
+  Target_Prev_Period bigint(20,4)   
+  Amount_Prev_Period bigint(20,4)   
+  Accumulative_Target_Achieved_Pct bigint(20,4)   
   Month int  
   Quarter int  
   Year int  
-  KPI_PCT numeric
+  KPI_PCT bigint
   KPI_Result varchar(30) 
   No_Of_Run int  
 }
 
 Table Fact_KPI_Reconcile_Result {
-  PK_ID numeric [pk]
-  Session_ID numeric
-  FK_Sale_ID numeric [not null]
+  PK_ID bigint [pk]
+  Session_ID bigint
+  FK_Sale_ID bigint [not null]
   Process_Date date  
-  Amount numeric(20,4)   
-  Total_Balance numeric(20,4)   
-  Target_Current_Period numeric(20,4)   
-  Target_Prev_Period numeric(20,4)   
-  Amount_Prev_Period numeric(20,4)   
-  Accumulative_Target_Achieved_Pct numeric(20,4)   
+  Amount bigint(20,4)   
+  Total_Balance bigint(20,4)   
+  Target_Current_Period bigint(20,4)   
+  Target_Prev_Period bigint(20,4)   
+  Amount_Prev_Period bigint(20,4)   
+  Accumulative_Target_Achieved_Pct bigint(20,4)   
   Month int  
   Quarter int  
   Year int  
-  KPI_PCT numeric
+  KPI_PCT bigint
   KPI_Result varchar(30) 
   No_Of_Run int  
   Note varchar(4000)  
@@ -202,27 +202,27 @@ Table Fact_KPI_Reconcile_Result {
 }
 
 Table Fact_KPI_Result {
-  PK_ID numeric [pk]
-  Session_ID numeric
-  FK_Sale_ID numeric [not null]
+  PK_ID bigint [pk]
+  Session_ID bigint
+  FK_Sale_ID bigint [not null]
   Process_Date date  
-  Amount numeric(20,4)   
-  Total_Balance numeric(20,4)   
-  Target_Current_Period numeric(20,4)   
-  Target_Prev_Period numeric(20,4)   
-  Amount_Prev_Period numeric(20,4)   
-  Accumulative_Target_Achieved_Pct numeric(20,4)   
+  Amount bigint(20,4)   
+  Total_Balance bigint(20,4)   
+  Target_Current_Period bigint(20,4)   
+  Target_Prev_Period bigint(20,4)   
+  Amount_Prev_Period bigint(20,4)   
+  Accumulative_Target_Achieved_Pct bigint(20,4)   
   Month int  
   Quarter int  
   Year int  
-  KPI_PCT numeric
+  KPI_PCT bigint
   KPI_Result varchar(30) 
   No_Of_Run int  
   Note varchar(4000)  
   Attachment varchar(300)  
 }
 
-//Relation script
+--Relation script
 
 Ref: "Dim_Cust_ID"."PK_ID" < "Fact_Transaction"."FK_Cust_ID"
 Ref: "Dim_Product_Category"."PK_ID" < "Dim_Product_Code"."FK_Product_Cat"
